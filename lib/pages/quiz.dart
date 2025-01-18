@@ -11,13 +11,14 @@ class Quiz extends StatefulWidget {
 }
 
 class _QuizState extends State<Quiz> {
-  final List<String> selectedAnswers = [];
+  List<String> selectedAnswers = [];
   String activeScreen = 'home-page';
 
   void chooseAnswer(String answer) {
     selectedAnswers.add(answer);
     if (selectedAnswers.length == questions.length) {
       setState(() {
+        selectedAnswers = [];
         activeScreen = 'home-page';
       });
     }
