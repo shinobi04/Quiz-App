@@ -1,6 +1,7 @@
 import 'package:dumbproj2/data/questions.dart';
 import 'package:dumbproj2/pages/home_page.dart';
 import 'package:dumbproj2/pages/question_screen.dart';
+import 'package:dumbproj2/pages/result_screen.dart';
 import 'package:flutter/material.dart';
 
 class Quiz extends StatefulWidget {
@@ -19,7 +20,7 @@ class _QuizState extends State<Quiz> {
     if (selectedAnswers.length == questions.length) {
       setState(() {
         selectedAnswers = [];
-        activeScreen = 'home-page';
+        activeScreen = 'result-screen';
       });
     }
   }
@@ -32,11 +33,16 @@ class _QuizState extends State<Quiz> {
 
   @override
   Widget build(BuildContext context) {
-    final widgetScreen = activeScreen == 'home-page'
+    var widgetScreen = activeScreen == 'home-page'
         ? HomePage(switchScreen)
         : QuestionScreen(
             onSelectAnswer: chooseAnswer,
           );
+    if (activeScreen == "result-screen") {
+      widgetScreen = ResultsScreen(
+        chosenAnswer: selectedAnswers,
+      );
+    }
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
