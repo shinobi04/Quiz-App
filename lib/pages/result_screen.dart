@@ -1,3 +1,4 @@
+import 'package:dumbproj2/data/questions.dart';
 import 'package:flutter/material.dart';
 
 class ResultsScreen extends StatelessWidget {
@@ -7,6 +8,21 @@ class ResultsScreen extends StatelessWidget {
   });
 
   final List<String> chosenAnswer;
+
+  List<Map<String, Object>> getSummaryData() {
+    final List<Map<String, Object>> summary = [];
+
+    for (var i = 0; i < chosenAnswer.length; i++) {
+      summary.add({
+        'question_index': i,
+        'question': questions[i].text,
+        "correct_answer": questions[i].answers[0],
+        "user_answer": chosenAnswer[i],
+      });
+    }
+
+    return summary;
+  }
 
   @override
   Widget build(BuildContext context) {
