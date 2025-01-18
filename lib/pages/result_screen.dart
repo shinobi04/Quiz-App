@@ -1,4 +1,5 @@
 import 'package:dumbproj2/data/questions.dart';
+import 'package:dumbproj2/pages/question_summary.dart';
 import 'package:flutter/material.dart';
 
 class ResultsScreen extends StatelessWidget {
@@ -38,7 +39,7 @@ class ResultsScreen extends StatelessWidget {
               "You Answered X out of Y Questions Correctly!",
             ),
             const SizedBox(height: 30),
-            Text("List of answer ad=nd ques"),
+            QuestionSummary(summaryData: getSummaryData()),
             const SizedBox(
               height: 30,
             ),
