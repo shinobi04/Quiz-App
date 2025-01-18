@@ -8,44 +8,71 @@ class Quiz extends StatefulWidget {
   const Quiz({super.key});
 
   @override
-  State<Quiz> createState() => _QuizState();
+  State<Quiz> createState() {
+    return _QuizState();
+  }
 }
 
 class _QuizState extends State<Quiz> {
   List<String> selectedAnswers = [];
-  String activeScreen = 'home-page';
+  var activeScreen = 'start-screen';
+
+  void switchScreen() {
+    setState(() {
+      activeScreen = 'questions-screen';
+    });
+  }
 
   void chooseAnswer(String answer) {
     selectedAnswers.add(answer);
+
     if (selectedAnswers.length == questions.length) {
       setState(() {
-        activeScreen = 'result-screen';
+        activeScreen = 'results-screen';
       });
     }
   }
 
-  void switchScreen() {
+  void restartQuiz() {
     setState(() {
-      activeScreen = 'question-screen';
+      selectedAnswers = [];
+      activeScreen = 'questions-screen';
     });
   }
 
   @override
-  Widget build(BuildContext context) {
-    var widgetScreen = activeScreen == 'home-page'
-        ? HomePage(switchScreen)
-        : QuestionScreen(
-            onSelectAnswer: chooseAnswer,
-          );
-    if (activeScreen == "result-screen") {
-      widgetScreen = ResultsScreen(
-        chosenAnswer: selectedAnswers,
+  Widget build(context) {
+    Widget screenWidget = HomePage(switchScreen);
+
+    if (activeScreen == 'questions-screen') {
+      screenWidget = QuestionScreen(
+        onSelectAnswer: chooseAnswer,
       );
     }
+
+    if (activeScreen == 'results-screen') {
+      screenWidget = ResultsScreen(
+        chosenAnswers: selectedAnswers,
+        onRestart: restartQuiz,
+      );
+    }
+
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       home: Scaffold(
-          backgroundColor: Color.fromRGBO(81, 0, 149, 1), body: widgetScreen),
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color.fromARGB(255, 78, 13, 151),
+                Color.fromARGB(255, 107, 15, 168),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: screenWidget,
+        ),
+      ),
     );
   }
 }
